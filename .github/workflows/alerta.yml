@@ -1,0 +1,29 @@
+name: Ejecutar y Notificar
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Ejecutar index.js
+        run: node index.js
+
+      - name: Enviar notificación a ntfy.sh
+        run: |
+          curl -H "Title: 🚀 Push detectado en main" \
+               -H "Priority: 4" \
+               -d "El código fue subido y ejecutado correctamente." \
+               https://ntfy.sh/devops-itla
